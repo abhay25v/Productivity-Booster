@@ -129,9 +129,13 @@ setTimerButton.addEventListener("click", () => {
 ---------------------------- */
 // Load Blocked Websites
 function loadBlockedSites() {
-  chrome.storage.local.get("blockedSites", (data) => {
-    const blockedSites = data.blockedSites || [];
-    blockedSites.forEach((site) => addBlockedSiteToUI(site));
+  chrome.runtime.sendMessage({ type: "getBlockedSites" }, (sites) => {
+    if (chrome.runtime.lastError) {
+      console.warn("Error loading blocked sites:", chrome.runtime.lastError.message);
+      return;
+    }
+    blockList.innerHTML = '';
+    sites.forEach((site) => addBlockedSiteToUI(site));
   });
 }
 
@@ -157,14 +161,22 @@ blockAddButton.addEventListener("click", () => {
   const site = blockInput.value.trim();
   if (site) {
     chrome.runtime.sendMessage({ type: "blockSite", site }, () => {
-      addBlockedSiteToUI(site);
-      blockInput.value = "";
+      if (chrome.runtime.lastError) {
+        console.warn("Error blocking site:", chrome.runtime.lastError.message);
+      } else {
+        addBlockedSiteToUI(site);
+        blockInput.value = "";
+      }
     });
   }
 });
 
 function removeBlockedSite(site) {
-  chrome.runtime.sendMessage({ type: "unblockSite", site });
+  chrome.runtime.sendMessage({ type: "unblockSite", site }, () => {
+    if (chrome.runtime.lastError) {
+      console.warn("Error unblocking site:", chrome.runtime.lastError.message);
+    }
+  });
 }
 
 /** --------------------------
@@ -172,8 +184,12 @@ function removeBlockedSite(site) {
 ----------------------------- */
 // Load Notes
 function loadNotes() {
-  chrome.storage.local.get("notes", (data) => {
-    const notes = data.notes || [];
+  chrome.runtime.sendMessage({ type: "getNotes" }, (notes) => {
+    if (chrome.runtime.lastError) {
+      console.warn("Error loading notes:", chrome.runtime.lastError.message);
+      return;
+    }
+    noteList.innerHTML = '';
     notes.forEach((note) => addNoteToUI(note));
   });
 }
@@ -187,8 +203,13 @@ function addNoteToUI(note) {
   deleteButton.textContent = "Delete";
   deleteButton.style.marginLeft = "10px";
   deleteButton.addEventListener("click", () => {
-    chrome.runtime.sendMessage({ type: "deleteNote", note });
-    li.remove();
+    chrome.runtime.sendMessage({ type: "deleteNote", note }, () => {
+      if (chrome.runtime.lastError) {
+        console.warn("Error deleting note:", chrome.runtime.lastError.message);
+      } else {
+        li.remove();
+      }
+    });
   });
 
   li.appendChild(deleteButton);
@@ -200,8 +221,12 @@ addNoteButton.addEventListener("click", () => {
   const note = noteInput.value.trim();
   if (note) {
     chrome.runtime.sendMessage({ type: "addNote", note }, () => {
-      addNoteToUI(note);
-      noteInput.value = "";
+      if (chrome.runtime.lastError) {
+        console.warn("Error adding note:", chrome.runtime.lastError.message);
+      } else {
+        addNoteToUI(note);
+        noteInput.value = "";
+      }
     });
   }
 });

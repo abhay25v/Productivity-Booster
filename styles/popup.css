@@ -106,7 +106,7 @@ button {
 
 /* Website Blocker Styling */
 #blocker-section input {
-  width: calc(100% - 80px);
+  width: calc(100% - 60px); /* Adjusted width */
   padding: 10px;
   margin-right: 10px;
   border: 1px solid #ccc;
@@ -157,7 +157,7 @@ button {
 
 /* Notes Styling */
 #notes-section input {
-  width: calc(100% - 80px);
+  width: calc(100% - 60px); /* Adjusted width */
   padding: 10px;
   margin-right: 10px;
   border: 1px solid #ccc;

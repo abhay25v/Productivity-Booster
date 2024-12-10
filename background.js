@@ -173,35 +173,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     case "getTimerState":
       sendResponse(timerState);
       break;
+    case "getBlockedSites":
+      sendResponse(blockedSites);
+      break;
+    case "getNotes":
+      sendResponse(notes);
+      break;
     default:
       sendResponse({ success: false });
       break;
   }
   return true;
 });
-
-
-// Handle Timer Alarm
-chrome.alarms.onAlarm.addListener((alarm) => {
-  if (alarm.name === "pomodoroTimer") {
-    chrome.notifications.create({
-      type: "basic",
-      iconUrl: "assets/icon128.png",
-      title: "Pomodoro Timer",
-      message: "Time's up! Take a break or start another session.",
-    });
-    resetTimer();
-  }
-});
-
-function loadState(callback) {
-  chrome.storage.local.get("timerState", (data) => {
-    if (data.timerState) {
-      timerState = data.timerState;
-    }
-    if (callback) callback(timerState);
-  });
-}
 
 // Website Blocker Logic
 function blockSite(site) {
@@ -250,15 +233,36 @@ function blockRequest(details) {
 function addNote(note) {
   if (!notes.includes(note)) {
     notes.push(note);
-    saveState();
+    saveNotes();
   }
 }
 
 function deleteNote(note) {
-  notes = notes.filter((n) => n !== note);
-  saveState();
+  notes = notes.filter(n => n !== note);
+  saveNotes();
 }
 
+// Handle Timer Alarm
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (alarm.name === "pomodoroTimer") {
+    chrome.notifications.create({
+      type: "basic",
+      iconUrl: "assets/icon128.png",
+      title: "Pomodoro Timer",
+      message: "Time's up! Take a break or start another session.",
+    });
+    resetTimer();
+  }
+});
+
+function loadState(callback) {
+  chrome.storage.local.get("timerState", (data) => {
+    if (data.timerState) {
+      timerState = data.timerState;
+    }
+    if (callback) callback(timerState);
+  });
+}
 // Save State
 function saveState() {
   chrome.storage.local.set({ timerState, blockedSites, notes });
