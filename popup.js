@@ -17,6 +17,23 @@ const noteInput = document.getElementById("note-input");
 const addNoteButton = document.getElementById("add-note");
 const noteList = document.getElementById("note-list");
 
+// Feature List Variables
+const featureButtons = document.querySelectorAll(".feature-button");
+const featureSections = document.querySelectorAll(".feature-section");
+
+// Show the selected feature section
+featureButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    const feature = button.getAttribute("data-feature");
+    featureSections.forEach(section => {
+      section.classList.add("hidden");
+      section.classList.remove("visible");
+    });
+    document.getElementById(feature).classList.remove("hidden");
+    document.getElementById(feature).classList.add("visible");
+  });
+});
+
 /** --------------------------
     POMODORO TIMER FUNCTIONS
 ----------------------------- */
@@ -37,6 +54,10 @@ function syncTimerState() {
 
       startButton.disabled = state.isRunning;
       pauseButton.disabled = !state.isRunning;
+    } else {
+      // Default display
+      minutesDisplay.textContent = 25;
+      secondsDisplay.textContent = "00";
     }
   });
 }
@@ -102,7 +123,6 @@ setTimerButton.addEventListener("click", () => {
     alert("Please enter a valid number of minutes!");
   }
 });
-
 
 /** -------------------------
     WEBSITE BLOCKER FUNCTIONS

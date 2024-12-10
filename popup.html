@@ -10,8 +10,15 @@
   <div class="container">
     <h1>Productivity Booster</h1>
 
+    <!-- Feature List -->
+    <div id="feature-list">
+      <button class="feature-button" data-feature="timer-section">Pomodoro Timer</button>
+      <button class="feature-button" data-feature="blocker-section">Website Blocker</button>
+      <button class="feature-button" data-feature="notes-section">Quick Notes</button>
+    </div>
+
     <!-- Pomodoro Timer Section -->
-    <section>
+    <section id="timer-section" class="feature-section hidden">
       <h2>Pomodoro Timer</h2>
       <div id="timer">
         <span id="minutes">25</span>:<span id="seconds">00</span>
@@ -23,12 +30,12 @@
       </div>
       <div class="custom-timer">
         <input id="custom-time" type="number" placeholder="Enter time (minutes)" min="1">
-        <button id="set-timer">Set Timer</button>
+        <button id="set-timer">Set</button>
       </div>
     </section>
 
     <!-- Website Blocker Section -->
-    <section>
+    <section id="blocker-section" class="feature-section hidden">
       <h2>Website Blocker</h2>
       <input id="block-input" type="text" placeholder="Enter website URL">
       <button id="block-add">Block</button>
@@ -36,7 +43,7 @@
     </section>
 
     <!-- To-Do List Section -->
-    <section>
+    <section id="notes-section" class="feature-section hidden">
       <h2>Quick Notes</h2>
       <input id="note-input" type="text" placeholder="Enter a new note">
       <button id="add-note">Add Note</button>

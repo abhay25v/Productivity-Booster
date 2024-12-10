@@ -10,19 +10,89 @@ body {
 .container {
   max-width: 300px;
   margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
 
-section {
+h1 {
+  margin-bottom: 20px;
+  color: #007bff;
+}
+
+#feature-list {
   margin-bottom: 20px;
 }
 
-#timer {
-  font-size: 2em;
+.feature-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
   margin: 10px 0;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.feature-button:hover {
+  background-color: #0056b3;
+}
+
+.feature-section {
+  display: none;
+}
+
+.feature-section.hidden {
+  display: none;
+}
+
+.feature-section.visible {
+  display: block;
+}
+
+#timer {
+  font-size: 4em;
+  margin: 20px 0;
+  color: #007bff;
 }
 
 .buttons button {
   margin: 5px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+.buttons button:hover {
+  background-color: #0056b3;
+}
+
+.custom-timer input {
+  width: calc(100% - 100px);
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.custom-timer button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+.custom-timer button:hover {
+  background-color: #0056b3;
 }
 
 input {
@@ -32,4 +102,106 @@ input {
 
 button {
   cursor: pointer;
+}
+
+/* Website Blocker Styling */
+#blocker-section input {
+  width: calc(100% - 80px);
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#blocker-section button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+#blocker-section button:hover {
+  background-color: #0056b3;
+}
+
+#block-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+#block-list li {
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #f4f4f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#block-list button {
+  padding: 5px 10px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9em;
+}
+
+#block-list button:hover {
+  background-color: #cc0000;
+}
+
+/* Notes Styling */
+#notes-section input {
+  width: calc(100% - 80px);
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#notes-section button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+#notes-section button:hover {
+  background-color: #0056b3;
+}
+
+#note-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+#note-list li {
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #f4f4f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#note-list button {
+  padding: 5px 10px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9em;
+}
+
+#note-list button:hover {
+  background-color: #cc0000;
 }
