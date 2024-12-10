@@ -1,0 +1,35 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f4f4f9;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+section {
+  margin-bottom: 20px;
+}
+
+#timer {
+  font-size: 2em;
+  margin: 10px 0;
+}
+
+.buttons button {
+  margin: 5px;
+}
+
+input {
+  width: calc(100% - 50px);
+  padding: 5px;
+}
+
+button {
+  cursor: pointer;
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productivity Booster</title>
+  <link rel="stylesheet" href="styles/popup.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Productivity Booster</h1>
+
+    <!-- Pomodoro Timer Section -->
+    <section>
+      <h2>Pomodoro Timer</h2>
+      <div id="timer">
+        <span id="minutes">25</span>:<span id="seconds">00</span>
+      </div>
+      <div class="buttons">
+        <button id="start">Start</button>
+        <button id="pause">Pause</button>
+        <button id="reset">Reset</button>
+      </div>
+      <div class="custom-timer">
+        <input id="custom-time" type="number" placeholder="Enter time (minutes)" min="1">
+        <button id="set-timer">Set Timer</button>
+      </div>
+    </section>
+
+    <!-- Website Blocker Section -->
+    <section>
+      <h2>Website Blocker</h2>
+      <input id="block-input" type="text" placeholder="Enter website URL">
+      <button id="block-add">Block</button>
+      <ul id="block-list"></ul>
+    </section>
+
+    <!-- To-Do List Section -->
+    <section>
+      <h2>Quick Notes</h2>
+      <input id="note-input" type="text" placeholder="Enter a new note">
+      <button id="add-note">Add Note</button>
+      <ul id="note-list"></ul>
+    </section>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
