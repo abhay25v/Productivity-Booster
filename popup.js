@@ -175,6 +175,8 @@ function removeBlockedSite(site) {
   chrome.runtime.sendMessage({ type: "unblockSite", site }, () => {
     if (chrome.runtime.lastError) {
       console.warn("Error unblocking site:", chrome.runtime.lastError.message);
+    }else {
+      console.log(`Site ${site} unblocked successfully.`);
     }
   });
 }

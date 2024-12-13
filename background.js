@@ -8,6 +8,16 @@ let timerState = {
 // Blocked Websites
 let blockedSites = [];
 
+// Retrieve blocked sites from storage on startup
+chrome.storage.local.get("blockedSites", (result) => {
+  if (chrome.runtime.lastError) {
+    console.warn("Error retrieving blocked sites:", chrome.runtime.lastError.message);
+  } else {
+    blockedSites = result.blockedSites || [];
+    updateBlockingRules();
+  }
+});
+
 // Notes
 let notes = [];
 
@@ -58,9 +68,12 @@ function loadBlockedSites() {
 }
 
 function saveBlockedSites() {
-  chrome.storage.local.set({ blockedSites: blockedSites }, () => {
-    console.log("Blocked sites saved.");
-    updateBlockingRules();
+  chrome.storage.local.set({ blockedSites }, () => {
+    if (chrome.runtime.lastError) {
+      console.warn("Error saving blocked sites:", chrome.runtime.lastError.message);
+    } else {
+      console.log("Blocked sites saved successfully.");
+    }
   });
 }
 
@@ -152,10 +165,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       break;
     /** Blocked Sites Functions */
     case "blockSite":
+      // blockedSites.push(message.site);
       blockSite(message.site);
       sendResponse({ success: true });
       break;
     case "unblockSite":
+      // blockedSites = blockedSites.filter(site => site !== message.site);
       unblockSite(message.site);
       sendResponse({ success: true });
       break;
@@ -192,6 +207,7 @@ function blockSite(site) {
   if (!blockedSites.includes(formattedSite)) {
     blockedSites.push(formattedSite);
     saveBlockedSites();
+    updateBlockingRules();
   }
 }
 
@@ -199,35 +215,50 @@ function unblockSite(site) {
   const formattedSite = formatSite(site);
   blockedSites = blockedSites.filter((s) => s !== formattedSite);
   saveBlockedSites();
+  updateBlockingRules();
 }
 
 // Format Site URL
 function formatSite(site) {
+  site = site.trim().replace(/\/$/, ""); // Remove trailing slashes
   if (!site.startsWith("http://") && !site.startsWith("https://")) {
-    site = `*://${site}/*`;
+    site = `*://${site}/*`; // Add wildcard protocol and path
   } else {
-    site = site.replace(/^https?:\/\//, '*://');
-    site = site.replace(/\/$/, '/*');
+    site = site.replace(/^https?:\/\//, "*://"); // Replace protocol with wildcard
+    if (!site.endsWith("/*")) {
+      site += "/*"; // Add path wildcard
+    }
   }
   return site;
 }
 
 // Update Blocking Rules
 function updateBlockingRules() {
-  const urls = blockedSites.map(site => site);
-  chrome.webRequest.onBeforeRequest.removeListener(blockRequest);
-  if (urls.length > 0) {
-    chrome.webRequest.onBeforeRequest.addListener(
-      blockRequest,
-      { urls: urls },
-      ["blocking"]
-    );
-  }
+  const rules = blockedSites.map((site, index) => ({
+    id: index + 1, // Rule ID must be unique
+    priority: 1,
+    action: { type: "block" },
+    condition: { urlFilter: site }
+  }));
+
+  chrome.declarativeNetRequest.updateDynamicRules({
+    removeRuleIds: blockedSites.map((_, index) => index + 1),
+    addRules: rules
+  }, () => {
+    if (chrome.runtime.lastError) {
+      console.warn("Error updating blocking rules:", chrome.runtime.lastError.message);
+    } else {
+      console.log("Blocking rules updated.");
+    }
+  });
 }
 
 function blockRequest(details) {
+  console.log(`Blocking request to: ${details.url}`);
   return { cancel: true };
 }
+
+
 
 // Notes Logic
 function addNote(note) {
@@ -276,7 +307,7 @@ chrome.runtime.onStartup.addListener(() => {
     if (data.blockedSites) blockedSites = data.blockedSites;
     if (data.notes) notes = data.notes;
 
-    updateBlockedRules();
+    updateBlockingRules();
   });
 });
 
@@ -287,6 +318,6 @@ chrome.runtime.onInstalled.addListener(() => {
     if (data.blockedSites) blockedSites = data.blockedSites;
     if (data.notes) notes = data.notes;
 
-    updateBlockedRules();
+    updateBlockingRules();
   });
 });

@@ -1,18 +1,25 @@
 {
-    "manifest_version": 3,
-    "name": "Productivity Booster",
-    "version": "1.0",
-    "description": "A Chrome extension with Pomodoro Timer, Website Blocker, and Quick Notes.",
-    "permissions": ["alarms", "notifications", "storage", "declarativeNetRequest"],
-    "background": {
-      "service_worker": "background.js"
-    },
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": "assets/icon128.png"
-    },
-    "icons": {
-      "128": "assets/icon128.png"
-    }
+  "manifest_version": 3,
+  "name": "Productivity Booster",
+  "version": "1.0",
+  "description": "A Chrome extension with Pomodoro Timer, Website Blocker, and Quick Notes.",
+  "permissions": [
+    "alarms",
+    "notifications",
+    "storage",
+    "declarativeNetRequest"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "assets/icon128.png"
+  },
+  "icons": {
+    "128": "assets/icon128.png"
   }
-  
+}
